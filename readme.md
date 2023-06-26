@@ -44,6 +44,16 @@ Recall: 76.34%
 
 f1-score: 73.61%
 
+## Conclusions
+
+1. This is a very small model thus is heavily overfit on training dataset.
+
+2. There are many things that can be done to improve on this model, including increasing model width and depth, increasing dataset. Incorporating multiple sentiments (like, dislike, neutral, confused, ...)
+
+3. This model cannot be used to handle ambiguios reviews. It also fails to properly understand the context of negation of the sentences or certain phrases.
+
+4. Better models can be used for better understanding of the context. These models include transformer model or even other sequence2sequence models. This allows model to be trained to first understand meaning of various words, then that language model can be repurposed and finetuned for sentiment analysis.
+
 ## Deployment
 
 I have implemented a simple web UI to access this model using Streamlit.
