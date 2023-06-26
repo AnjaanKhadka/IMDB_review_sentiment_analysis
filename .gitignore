@@ -1,2 +1,5 @@
 my_env
 training/*.csv
+training_cnn/*.csv
+*.pkl
+__pycache__
