@@ -8,7 +8,7 @@ I used a 50k IMDB movie review dataset from [Kaggle](https://www.kaggle.com/data
 
 This dataset was split into 3ways: Train, Test, and Validation.
 
-![image](https://github.com/AnjaanKhadka/IMDB_review_sentiment_analysis/assets/43941329/13ea3184-450d-47d9-91b3-7509070e0d1d)
+![image](https://github.com/AnjaanKhadka/IMDB_review_sentiment_analysis/assets/43941329/f64e1bd0-4a3a-41fb-9b86-0f073281784a)
 
 ## Training
 
