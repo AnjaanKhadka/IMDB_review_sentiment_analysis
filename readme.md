@@ -37,8 +37,11 @@ Hyperparameters used for training:
 ### Testing Results
 
 Accuracy: 77.23%
+
 Precision: 71.07%
+
 Recall: 76.34%
+
 f1-score: 73.61%
 
 ## Deployment
