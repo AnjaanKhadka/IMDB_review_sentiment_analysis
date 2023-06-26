@@ -1,27 +1,51 @@
-import streamlit as st
-from matplotlib import pyplot as plt
+import numpy as np
+import pandas as pd
+import pickle
+import argparse
 
-st.title("Movie Review Sentiment Analysis")
-t = st.text_input("Enter your movie review:")
+from keras import optimizers
+from keras.models import Sequential
+from keras.layers import Dense, Flatten, Embedding
+from keras.layers.convolutional import Conv1D
+from keras.layers.convolutional import MaxPooling1D
+from keras.utils import pad_sequences
 
-def draw_horizontal_line(conf):
-    conf = float(conf)
-    neg_conf = 100 - conf
-    st.write("<style> .element-container { display: flex; justify-content: center; } </style>", unsafe_allow_html=True)
+parser = argparse.ArgumentParser()
 
-    # Create a horizontal line with two different colors
-    line_html = f'<hr style="width: {conf}%; border: none; height: 5px; background-color: green; display: inline-block; margin: 0;">'
-    line_html += f'<hr style="width: {neg_conf}%; border: none; height: 5px; background-color: red; display: inline-block; margin: 0;">'
+parser.add_argument("--vocab_path", type=str, default="../training/vocab.pkl")
+parser.add_argument("--model_path", type=str, default="../training/model.pkl")
+parser.add_argument("--input_text", type=str, default="It is a good movie")
 
-    # Display the line and labels
-    st.write(f'''
-             <div class="element-container">{line_html}</div>
-                <div style="display: flex; justify-content: space-between;">
-                    <div>{conf}%</div>
-                    <div>{neg_conf}%</div>
-                </div>
-            </div>
-             ''',unsafe_allow_html=True)
+opt = parser.parse_args()
 
-if st.button("Predict Sentiment"):
-    draw_horizontal_line(t)
+def load_model_and_vocab():
+    vocab_path = opt.vocab_path
+    model_path = opt.model_path
+    
+    with open(vocab_path, 'rb') as f:
+        vocab = pickle.load(f)
+    
+    with open(model_path, 'rb') as f:
+        model = pickle.load(f)
+    return model, vocab
+
+def encode_text(text,vocab):
+    encoded_text = []
+    labels = []       
+    encoded_text.append([vocab[word] if word in vocab else 0 for word in text.split()])
+    # labels.append(item['sentiment'])
+    return np.array(encoded_text) #, np.array(labels)
+
+if __name__ == "__main__":
+    
+    model, vocab = load_model_and_vocab()
+    
+    encoded_text = encode_text(opt['input_text'],vocab)
+    
+    print(model.predict(encoded_text))
+    
+    
+    
+    
+    
+    

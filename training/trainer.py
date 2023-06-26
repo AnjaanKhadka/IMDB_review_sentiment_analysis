@@ -80,7 +80,8 @@ if __name__ == "__main__":
     model.summary()
 
     history = model.fit(X_train, Y_train, validation_data=(X_valid, Y_valid), epochs=opt['epochs'], batch_size = opt['batch_size'], verbose=2)
-    model.save('model.h5')
+    with open('model.pkl', 'wb') as f:
+        pickle.dump(model, f)
     with open('history.pkl', 'wb') as f:
         pickle.dump(history.history, f)
     
