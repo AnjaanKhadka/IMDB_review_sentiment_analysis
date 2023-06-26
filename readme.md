@@ -1,6 +1,6 @@
 # Sentiment analysis on IMDB movie review dataset
 
-I have trained a sequential CNN model for the task.
+I have trained a sequential CNN model for the task. I initially started training a transformer model (distilbert) which should have yeild better results. Byt it took very long time to train. Thus I opted for small CNN model to achieve. This has resulted in over-fit model.
 
 ## Dataset
 
@@ -25,13 +25,21 @@ Hyperparameters used for training:
 3. Adam optimizer
 4. Fixed learning rate of 1e-6
 
-Results:
+## Results
+
+### Training Results
+
 ![image](https://github.com/AnjaanKhadka/IMDB_review_sentiment_analysis/assets/43941329/e577cb0f-99e0-4c0b-af26-40ed8e6c4319)
 ![image](https://github.com/AnjaanKhadka/IMDB_review_sentiment_analysis/assets/43941329/bf39fc0b-d085-4de3-b52a-14787bec4afc)
 ![image](https://github.com/AnjaanKhadka/IMDB_review_sentiment_analysis/assets/43941329/96454898-67d7-4670-bfa4-93fbdf8a312a)
 ![image](https://github.com/AnjaanKhadka/IMDB_review_sentiment_analysis/assets/43941329/882a32cd-d1df-4735-a6dc-a3ad7e3d1a2f)
 
+### Testing Results
 
+Accuracy: 77.23%
+Precision: 71.07%
+Recall: 76.34%
+f1-score: 73.61%
 
 ## Deployment
 
@@ -55,6 +63,34 @@ Install requirements as
 
     pip install -r requirements_train.txt
 
+Then start by downloading dataset from [Kaggle](https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews)
+
+Then by executing preprocess.py as
+
+    python preprocess.py
+
+Then we obtain train, test and validation csv files.
+
+These files are used for the training and testing of the model.
+
+To train you can execute trainer.py
+
+    python trainer.py
+
+You can use various arguments for better training. These arguments are:
+
+1. --top_words: Selecting most frequent n words in our vocabulary. This defines how rare words our model accepts. Low value of top_words will result in common words missing. Higher value results in consideration of unlikely words and makes harder for the model to see pattern within the textual data. I found optimum value to be around 40k for the dataset.
+
+2. --max_length: It defines maximum number of words allowed per review that our model can accept. It defines the model input size. Smaller value limits the review length. Larger value increases model size and may account for longer reviews and longer training time. Larger value may also result in sparcity of input data for smaller sentences. I found optimum value to be around 200-400.
+
+3. --epochs: No of epochs to train train.
+
+4. --batch_size: Batch size defines how many sample texts are cycles in each operation. use batch_size=1 for cpu.
+
+5. --learning_rate: It defines how quickly we proceed towards minimum state. small learning rate are prefered. larger learning rate may not converge to global minimum.
+
+Various other hyperparameters can be tuned by manually editing the code.
+
 ## If You want to try Testing
 
 Clone my repository as
@@ -65,5 +101,7 @@ Install requirements as
 
     pip install -r requirements_test.txt
 
+Then change to deployment directory and execute interface.py with streamlit as:
 
+    streamlit run interface.py
 
