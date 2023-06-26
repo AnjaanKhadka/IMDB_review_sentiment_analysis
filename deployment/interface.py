@@ -1,6 +1,6 @@
 import streamlit as st
 from main import infer_the_model
-from matplotlib import pyplot as plt
+
 
 st.title("Movie Review Sentiment Analysis")
 text = st.text_input("Enter your movie review:")
