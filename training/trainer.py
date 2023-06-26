@@ -81,7 +81,7 @@ if __name__ == "__main__":
     model.add(Dense(500, activation='relu'))
     model.add(Dense(2, activation='sigmoid'))
 
-    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy','Precision','Recall'])
+    model.compile(loss='binary_crossentropy', optimizer = optm, metrics=['accuracy','Precision','Recall'])
     model.summary()
 
     history = model.fit(X_train, Y_train, validation_data=(X_valid, Y_valid), epochs=opt['epochs'], batch_size = opt['batch_size'], verbose=2)
