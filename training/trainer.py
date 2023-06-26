@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import pickle
 import argparse
+from matplotlib import pyplot as plt
 
 from keras import optimizers
 from keras.models import Sequential
@@ -85,14 +86,21 @@ if __name__ == "__main__":
 
     history = model.fit(X_train, Y_train, validation_data=(X_valid, Y_valid), epochs=opt['epochs'], batch_size = opt['batch_size'], verbose=2)
     
-    print(history)
+    print(history.history)
     
     
     
-    with open('model.pkl', 'wb') as f:
-        pickle.dump(model, f)
+    # with open('model.pkl', 'wb') as f:
+    #     pickle.dump(model, f)
+    model_json = model.to_json()
+    with open("model.json", "w") as json_file:
+        json_file.write(model_json)
+    model.save_weights("model.h5")
+    
     with open('history.pkl', 'wb') as f:
         pickle.dump(history.history, f)
+        
+    
     
 
 

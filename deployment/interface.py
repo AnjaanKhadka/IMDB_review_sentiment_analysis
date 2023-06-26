@@ -8,11 +8,12 @@ text = st.text_input("Enter your movie review:")
 def draw_horizontal_line(conf):
     conf = float(conf)
     neg_conf = 100 - conf
+    
     st.write("<style> .element-container { display: flex; justify-content: center; } </style>", unsafe_allow_html=True)
 
     # Create a horizontal line with two different colors
-    line_html = f'<hr style="width: {conf}%; border: none; height: 5px; background-color: green; display: inline-block; margin: 0;">'
-    line_html += f'<hr style="width: {neg_conf}%; border: none; height: 5px; background-color: red; display: inline-block; margin: 0;">'
+    line_html = f'<hr style="width: {conf}%; border: none; height: 8px; background-color: green; display: inline-block; margin: 0;">'
+    line_html += f'<hr style="width: {neg_conf}%; border: none; height: 8px; background-color: red; display: inline-block; margin: 0;">'
 
     # Display the line and labels
     st.write(f'''
@@ -26,5 +27,7 @@ def draw_horizontal_line(conf):
 
 if st.button("Predict Sentiment"):
     output = infer_the_model(text)
+    result = "Positive" if output > 50 else "Negative"
+    st.write(f'The sentiment of the movie review is: <div style="font-size:30px;" >{result}</div>', unsafe_allow_html=True)
     draw_horizontal_line(output)
     
