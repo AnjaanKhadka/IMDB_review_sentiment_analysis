@@ -1,13 +1,25 @@
 import numpy as np
 import pandas as pd
 import pickle
+import argparse
 
+from keras import optimizers
 from keras.models import Sequential
 from keras.layers import Dense, Flatten, Embedding
 from keras.layers.convolutional import Conv1D
 from keras.layers.convolutional import MaxPooling1D
-from keras.preprocessing import sequence
 from keras.utils import pad_sequences
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--top_words", type=int, default=5000)
+parser.add_argument("--max_words", type=int, default=200)
+parser.add_argument("--epochs", type=int, default=10)
+parser.add_argument("--batch_size", type=int, default=32)
+parser.add_argument("--learning_rate", type=float, default=0.00001)
+
+args = parser.parse_args()
+opt = vars(args)
+print(opt)
 
 
 
@@ -42,8 +54,8 @@ def encode_text(df,vocab):
     return np.array(encoded_text), np.array(labels)
 
 if __name__ == "__main__":
-    top_words = 5000
-    max_words = 200
+    top_words = opt['top_words']
+    max_words = opt['max_words']
     vocab = create_vocab(pd.read_csv("cleaned_dataset.csv"),top_words=top_words)
     X_train,Y_train = encode_text(pd.read_csv("train.csv"),vocab)
     X_valid,Y_valid = encode_text(pd.read_csv("valid.csv"),vocab)
@@ -52,6 +64,8 @@ if __name__ == "__main__":
     X_train = pad_sequences(X_train, maxlen=max_words)
     X_valid = pad_sequences(X_valid, maxlen=max_words)
 
+    optm = optimizers.Adam(learning_rate=opt['learning_rate'])
+    
 
     model = Sequential()      
 
@@ -65,7 +79,7 @@ if __name__ == "__main__":
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy','Precision','Recall'])
     model.summary()
 
-    history = model.fit(X_train, Y_train, validation_data=(X_valid, Y_valid), epochs=2, batch_size=1, verbose=2)
+    history = model.fit(X_train, Y_train, validation_data=(X_valid, Y_valid), epochs=opt['epochs'], batch_size = opt['batch_size'], verbose=2)
     model.save('model.h5')
     with open('history.pkl', 'wb') as f:
         pickle.dump(history.history, f)
