@@ -1,4 +1,5 @@
 my_env
+training/cleaned_dataset.csv
 training/*.csv
 training_cnn/*.csv
 *.pkl

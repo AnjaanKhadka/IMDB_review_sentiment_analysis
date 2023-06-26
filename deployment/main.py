@@ -36,15 +36,17 @@ def encode_text(text,vocab):
     # labels.append(item['sentiment'])
     return np.array(encoded_text) #, np.array(labels)
 
-if __name__ == "__main__":
-    
+def infer_the_model(text):
     model, vocab = load_model_and_vocab()
-    
     maxlen = model.layers[1].get_output_at(0).get_shape().as_list()[1]
-
-    encoded_text = encode_text(opt.input_text,vocab)
-
+    encoded_text = encode_text(text,vocab)
     
     encoded_text = pad_sequences(encoded_text, maxlen=maxlen)
-    print(model.predict(encoded_text))
+    output = model.predict(encoded_text)
+    return output[0][0]
+    
+    
+if __name__ == "__main__":
+    print(infer_the_model(opt.input_text))
+    
     

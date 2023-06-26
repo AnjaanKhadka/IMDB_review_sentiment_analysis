@@ -1,9 +1,9 @@
 import streamlit as st
-
+from main import infer_the_model
 from matplotlib import pyplot as plt
 
 st.title("Movie Review Sentiment Analysis")
-t = st.text_input("Enter your movie review:")
+text = st.text_input("Enter your movie review:")
 
 def draw_horizontal_line(conf):
     conf = float(conf)
@@ -25,4 +25,6 @@ def draw_horizontal_line(conf):
              ''',unsafe_allow_html=True)
 
 if st.button("Predict Sentiment"):
-    draw_horizontal_line(t)
+    output = infer_the_model(text)
+    draw_horizontal_line(output)
+    

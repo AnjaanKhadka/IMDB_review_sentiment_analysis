@@ -50,8 +50,12 @@ def encode_text(df,vocab):
     for _,item in df.iterrows():
         
         encoded_text.append([vocab[word] if word in vocab else 0 for word in item['review'].split()])
-        labels.append(item['sentiment'])
+        labels.append([item['sentiment'],1-int(item['sentiment'])])
     return np.array(encoded_text), np.array(labels)
+
+
+
+
 
 if __name__ == "__main__":
     top_words = opt['top_words']
@@ -74,7 +78,7 @@ if __name__ == "__main__":
     model.add(MaxPooling1D())
     model.add(Flatten())
     model.add(Dense(500, activation='relu'))
-    model.add(Dense(1, activation='sigmoid'))
+    model.add(Dense(2, activation='sigmoid'))
 
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy','Precision','Recall'])
     model.summary()
@@ -106,7 +110,7 @@ if __name__ == "__main__":
 # import numpy as np
 # import pandas as pd
 # from datasets import load_metric, load_dataset
-# from sklearn.model_selection import train_test_split
+
 # from transformers import AutoTokenizer, AutoModelForSequenceClassification, TrainingArguments, Trainer
 
 
@@ -163,16 +167,7 @@ if __name__ == "__main__":
 
 
 # if __name__ == "__main__":
-#     df = pd.read_csv('cleaned_dataset.csv')
-#     df['label'] = df['sentiment']
-#     # print(df.head())
-    
-#     train, test, valid = create_train_test_valid_dataset(df)
 
-    
-#     train.to_csv('train.csv', index=False)
-#     test.to_csv('test.csv', index=False)
-#     valid.to_csv('valid.csv', index=False)
     
 #     print("data_split complete!!")
 #     # train_x, train_y = tokenize_dataset(train)
