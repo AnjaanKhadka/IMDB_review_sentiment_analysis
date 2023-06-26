@@ -40,12 +40,11 @@ if __name__ == "__main__":
     
     model, vocab = load_model_and_vocab()
     
-    encoded_text = encode_text(opt['input_text'],vocab)
+    maxlen = model.layers[1].get_output_at(0).get_shape().as_list()[1]
+
+    encoded_text = encode_text(opt.input_text,vocab)
+
     
+    encoded_text = pad_sequences(encoded_text, maxlen=maxlen)
     print(model.predict(encoded_text))
-    
-    
-    
-    
-    
     

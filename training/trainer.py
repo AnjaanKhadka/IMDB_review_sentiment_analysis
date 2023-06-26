@@ -69,17 +69,22 @@ if __name__ == "__main__":
 
     model = Sequential()      
 
-    model.add(Embedding(top_words, 32, input_length=max_words))
-    model.add(Conv1D(32, 3, padding='same', activation='relu'))
+    model.add(Embedding(top_words, 64, input_length=max_words))
+    model.add(Conv1D(64, 3, padding='same', activation='relu'))
     model.add(MaxPooling1D())
     model.add(Flatten())
-    model.add(Dense(250, activation='relu'))
+    model.add(Dense(500, activation='relu'))
     model.add(Dense(1, activation='sigmoid'))
 
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy','Precision','Recall'])
     model.summary()
 
     history = model.fit(X_train, Y_train, validation_data=(X_valid, Y_valid), epochs=opt['epochs'], batch_size = opt['batch_size'], verbose=2)
+    
+    print(history)
+    
+    
+    
     with open('model.pkl', 'wb') as f:
         pickle.dump(model, f)
     with open('history.pkl', 'wb') as f:
