@@ -26,6 +26,11 @@ Hyperparameters used for training:
 4. Fixed learning rate of 1e-6
 
 Results:
+![image](https://github.com/AnjaanKhadka/IMDB_review_sentiment_analysis/assets/43941329/e577cb0f-99e0-4c0b-af26-40ed8e6c4319)
+![image](https://github.com/AnjaanKhadka/IMDB_review_sentiment_analysis/assets/43941329/bf39fc0b-d085-4de3-b52a-14787bec4afc)
+![image](https://github.com/AnjaanKhadka/IMDB_review_sentiment_analysis/assets/43941329/96454898-67d7-4670-bfa4-93fbdf8a312a)
+![image](https://github.com/AnjaanKhadka/IMDB_review_sentiment_analysis/assets/43941329/882a32cd-d1df-4735-a6dc-a3ad7e3d1a2f)
+
 
 
 ## Deployment
