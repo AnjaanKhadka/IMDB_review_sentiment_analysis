@@ -13,10 +13,14 @@ from keras.utils import pad_sequences
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--top_words", type=int, default=5000)
-parser.add_argument("--max_words", type=int, default=200)
+parser.add_argument("--max_words", type=int, default=512)
 parser.add_argument("--epochs", type=int, default=10)
 parser.add_argument("--batch_size", type=int, default=32)
 parser.add_argument("--learning_rate", type=float, default=0.00001)
+parser.add_argument("--cnn_depth", type=int, default=1)
+parser.add_argument("--cnn_blocks", type=int, default=2)
+parser.add_argument("--model_name", type=str, default="model")
+
 
 args = parser.parse_args()
 opt = vars(args)
@@ -75,8 +79,15 @@ if __name__ == "__main__":
     model = Sequential()      
 
     model.add(Embedding(top_words, 64, input_length=max_words))
-    model.add(Conv1D(64, 3, padding='same', activation='relu'))
-    model.add(MaxPooling1D())
+    
+    for i in range(opt['cnn_blocks']):
+        for j in range(opt['cnn_depth']):
+            model.add(Conv1D(int(64 / (2**i)), 3, padding='same', activation='relu'))
+        model.add(MaxPooling1D())
+    
+    
+    # model.add(Conv1D(64, 3, padding='same', activation='relu'))
+    # model.add(MaxPooling1D())
     model.add(Flatten())
     model.add(Dense(500, activation='relu'))
     model.add(Dense(2, activation='sigmoid'))
@@ -93,11 +104,11 @@ if __name__ == "__main__":
     # with open('model.pkl', 'wb') as f:
     #     pickle.dump(model, f)
     model_json = model.to_json()
-    with open("model.json", "w") as json_file:
+    with open(f"{opt['model_name']}.json", "w") as json_file:
         json_file.write(model_json)
-    model.save_weights("model.h5")
+    model.save_weights(f"{opt['model_name']}.h5")
     
-    with open('history.pkl', 'wb') as f:
+    with open(f"{opt['model_name']}.history", 'wb') as f:
         pickle.dump(history.history, f)
         
     

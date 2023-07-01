@@ -92,15 +92,21 @@ To train you can execute trainer.py
 
 You can use various arguments for better training. These arguments are:
 
-1. --top_words: Selecting most frequent n words in our vocabulary. This defines how rare words our model accepts. Low value of top_words will result in common words missing. Higher value results in consideration of unlikely words and makes harder for the model to see pattern within the textual data. I found optimum value to be around 40k for the dataset.
+1. --cnn_blocks: This is an integer input to define number of CNN blocks in the system.
 
-2. --max_length: It defines maximum number of words allowed per review that our model can accept. It defines the model input size. Smaller value limits the review length. Larger value increases model size and may account for longer reviews and longer training time. Larger value may also result in sparcity of input data for smaller sentences. I found optimum value to be around 200-400.
+2. --cnn_depth: This is an integer input to define number of CNN layers per CNN block.
 
-3. --epochs: No of epochs to train train.
+3. --top_words: Selecting most frequent n words in our vocabulary. This defines how rare words our model accepts. Low value of top_words will result in common words missing. Higher value results in consideration of unlikely words and makes harder for the model to see pattern within the textual data. I found optimum value to be around 40k for the dataset.
 
-4. --batch_size: Batch size defines how many sample texts are cycles in each operation. use batch_size=1 for cpu.
+4. --max_length: It defines maximum number of words allowed per review that our model can accept. It defines the model input size. Smaller value limits the review length. Larger value increases model size and may account for longer reviews and longer training time. Larger value may also result in sparcity of input data for smaller sentences. I found optimum value to be around 200-600. max_length must be divisible by 2<sup>cnn_blocks</sup>
 
-5. --learning_rate: It defines how quickly we proceed towards minimum state. small learning rate are prefered. larger learning rate may not converge to global minimum.
+5. --epochs: No of epochs to train train.
+
+6. --batch_size: Batch size defines how many sample texts are cycles in each operation. use batch_size=1 for cpu.
+
+7. --learning_rate: It defines how quickly we proceed towards minimum state. small learning rate are prefered. larger learning rate may not converge to global minimum.
+
+8. --model_name: This defins the model name. At last model is saved as model_name.json and model_name.h5 file, and if you want the history dictionery, model_name.history is also saved
 
 Various other hyperparameters can be tuned by manually editing the code.
 
@@ -117,4 +123,3 @@ Install requirements as
 Then change to deployment directory and execute interface.py with streamlit as:
 
     streamlit run interface.py
-
